@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Marquise Maison - Product Comparison</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Upright:wght@300;400;500;600;700&family=Eagle+Lake&family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
+    <style>
+      /* Custom styles for comparison page */
+      .compare-table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        margin-bottom: 2rem;
+        border: 1px solid #dee2e6;
+      }
+      
+      .compare-table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+        min-width: 150px;
+        padding: 1rem;
+        vertical-align: middle;
+        border-bottom: 1px solid #dee2e6;
+      }
+      
+      .compare-table td {
+        padding: 1rem;
+        text-align: center;
+        vertical-align: middle;
+        border-bottom: 1px solid #dee2e6;
+        min-width: 200px;
+      }
+      
+      .product-image {
+        position: relative;
+        margin-bottom: 1rem;
+      }
+      
+      .product-image img {
+        max-height: 200px;
+        object-fit: contain;
+        margin-bottom: 0.5rem;
+      }
+      
+      .remove-from-compare {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+      }
+      
+      .empty-compare-message {
+        padding: 3rem;
+        background-color: #f8f9fa;
+        border-radius: 0.5rem;
+      }
+      
+      .compare-count {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background-color: #dc3545;
+        color: white;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        font-size: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      @media (max-width: 768px) {
+        .compare-table {
+          display: block;
+          overflow-x: auto;
+        }
+      }
+    </style>
+  
+    <script src="jquery-3.6.0.min.js"></script></head>
+
+  <body>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+      <symbol id="search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+        <path d="M19.4271164,20.4271164 C18.0372495,21.4174803 16.3366522,22 14.5,22 C9.80557939,22 6,18.1944206 6,13.5 C6,8.80557939 9.80557939,5 14.5,5 C19.1944206,5 23,8.80557939 23,13.5 C23,15.8472103 22.0486052,17.9722103 20.5104077,19.5104077 L26.5077736,25.5077736 C26.782828,25.782828 26.7761424,26.2238576 26.5,26.5 C26.2219324,26.7780676 25.7796227,26.7796227 25.5077736,26.5077736 L19.4271164,20.4271164 L19.4271164,20.4271164 Z M14.5,21 C18.6421358,21 22,17.6421358 22,13.5 C22,9.35786417 18.6421358,6 14.5,6 C10.3578642,6 7,9.35786417 7,13.5 C7,17.6421358 10.3578642,21 14.5,21 L14.5,21 Z" />
+      </symbol>
+      <symbol id="user" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+        <path d="M16,15.7a5.7,5.7,0,1,0-5.7-5.7A5.71,5.71,0,0,0,16,15.7Zm0-9.7a4,4,0,1,1-4,4A4,4,0,0,1,16,6Zm0,10.85A9.67,9.67,0,0,0,6.34,26.52a0.84,0.84,0,1,0,1.67,0A8,8,0,0,1,16,18.7a8,8,0,0,1,8,7.82,0.84,0.84,0,1,0,1.67,0A9.67,9.67,0,0,0,16,16.85Z" />
+      </symbol>
+      <symbol id="heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+        <path d="M16,28.72a3,3,0,0,1-2.13-.88L3.57,17.54a8.72,8.72,0,0,1-2.52-6.25,8.06,8.06,0,0,1,8.14-8A8.06,8.06,0,0,1,15,5.68l1,1,.82-.82h0a8.39,8.39,0,0,1,11-.89,8.25,8.25,0,0,1,.81,12.36L18.13,27.84A3,3,0,0,1,16,28.72ZM9.15,5.28A6.12,6.12,0,0,0,4.89,7a6,6,0,0,0-1.84,4.33A6.72,6.72,0,0,0,5,16.13l10.3,10.3a1,1,0,0,0,1.42,0L27.23,15.9A6.25,6.25,0,0,0,29,11.11a6.18,6.18,0,0,0-2.43-4.55,6.37,6.37,0,0,0-8.37.71L16.71,8.8a1,1,0,0,1-1.42,0l-1.7-1.7a6.28,6.28,0,0,0-4.4-1.82Z" />
+      </symbol>
+      <symbol id="heart-fill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+        <path d="M16,28.72a3,3,0,0,1-2.13-.88L3.57,17.54a8.72,8.72,0,0,1-2.52-6.25,8.06,8.06,0,0,1,8.14-8A8.06,8.06,0,0,1,15,5.68l1,1,.82-.82h0a8.39,8.39,0,0,1,11-.89,8.25,8.25,0,0,1,.81,12.36L18.13,27.84A3,3,0,0,1,16,28.72Z" />
+      </symbol>
+      <symbol id="compare" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+        <path d="M28,6H4A1,1,0,0,0,3,7V25a1,1,0,0,0,1,1H28a1,1,0,0,0,1-1V7A1,1,0,0,0,28,6ZM13,24H5V8h8Zm14,0H15V8H27Z" />
+        <path d="M9,13a3,3,0,1,0-3,3A3,3,0,0,0,9,13ZM6,14a1,1,0,1,1,1-1A1,1,0,0,1,6,14Z" />
+        <path d="M21,13a3,3,0,1,0,3,3A3,3,0,0,0,21,13Zm0,4a1,1,0,1,1,1-1A1,1,0,0,1,21,17Z" />
+      </symbol>
+      <symbol id="cart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+        <path d="M23.52,29h-15a5.48,5.48,0,0,1-5.31-6.83L6.25,9.76a1,1,0,0,1,1-.76H24a1,1,0,0,1,1,.7l3.78,12.16a5.49,5.49,0,0,1-5.23,7.14ZM8.26,11,5.41,22.12A3.5,3.5,0,0,0,8.52,27h15a3.5,3.5,0,0,0,3.34-4.56L23.38,11Z" />
+        <path d="M20,17a1,1,0,0,1-1-1V8a3,3,0,0,0-6,0v8a1,1,0,0,1-2,0V8A5,5,0,0,1,21,8v8A1,1,0,0,1,20,17Z" />
+      </symbol>
+      <symbol id="arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+        <path d="M10.1,23a1,1,0,0,0,0-1.41L5.5,17H29.05a1,1,0,0,0,0-2H5.53l4.57-4.57A1,1,0,0,0,8.68,9L2.32,15.37a.9.9,0,0,0,0,1.27L8.68,23A1,1,0,0,0,10.1,23Z" />
+      </symbol>
+      <symbol id="arrow-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+        <path d="M21.9,9a1,1,0,0,0,0,1.42L26.5,15H2.95a1,1,0,0,0,0,2H26.47l-4.57,4.58A1,1,0,0,0,23.32,23l6.36-6.36a.91.91,0,0,0,0-1.27L23.32,9A1,1,0,0,0,21.9,9Z" />
+      </symbol>
+      <symbol id="shipping-fast" viewBox="0 0 640 512">
+        <path d="M624 352h-16V243.9c0-12.7-5.1-24.9-14.1-33.9L494 110.1c-9-9-21.2-14.1-33.9-14.1H416V48c0-26.5-21.5-48-48-48H112C85.5 0 64 21.5 64 48v48H8c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h272c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H40c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h208c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H8c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h208c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H64v128c0 53 43 96 96 96s96-43 96-96h128c0 53 43 96 96 96s96-43 96-96h48c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zM160 464c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm320 0c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm80-208H416V144h44.1l99.9 99.9V256z"></path>
+      </symbol>
+      <symbol id="shopping-cart" viewBox="0 0 576 512">
+        <path d="M528.12 301.319l47.273-208C578.806 78.301 567.391 64 551.99 64H159.208l-9.166-44.81C147.758 8.021 137.93 0 126.529 0H24C10.745 0 0 10.745 0 24v16c0 13.255 10.745 24 24 24h69.883l70.248 343.435C147.325 417.1 136 435.222 136 456c0 30.928 25.072 56 56 56s56-25.072 56-56c0-15.674-6.447-29.835-16.824-40h209.647C430.447 426.165 424 440.326 424 456c0 30.928 25.072 56 56 56s56-25.072 56-56c0-22.172-12.888-41.332-31.579-50.405l5.517-24.276c3.413-15.018-8.002-29.319-23.403-29.319H218.117l-6.545-32h293.145c11.206 0 20.92-7.754 23.403-18.681z"></path>
+      </symbol>
+      <symbol id="gift" viewBox="0 0 512 512">
+        <path d="M32 448c0 17.7 14.3 32 32 32h160V320H32v128zm256 32h160c17.7 0 32-14.3 32-32V320H288v160zm192-320h-42.1c6.2-12.1 10.1-25.5 10.1-40 0-48.5-39.5-88-88-88-41.6 0-68.5 21.3-103 68.3-34.5-47-61.4-68.3-103-68.3-48.5 0-88 39.5-88 88 0 14.5 3.8 27.9 10.1 40H32c-17.7 0-32 14.3-32 32v80c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16v-80c0-17.7-14.3-32-32-32zm-326.1 0c-22.1 0-40-17.9-40-40s17.9-40 40-40c19.9 0 34.6 3.3 86.1 80h-86.1zm206.1 0h-86.1c51.4-76.5 65.7-80 86.1-80 22.1 0 40 17.9 40 40s-17.9 40-40 40z"></path>
+      </symbol>
+      <symbol id="return" viewBox="0 0 512 512">
+        <path d="M403.8 34.4c12-5 25.7-2.2 34.9 6.9l64 64c6 6 9.4 14.1 9.4 22.6s-3.4 16.6-9.4 22.6l-64 64c-9.2 9.2-22.9 11.9-34.9 6.9s-19.8-16.6-19.8-29.6V160H352c-10.1 0-19.6 4.7-25.6 12.8L284 229.3 244 176l31.2-41.6C293.3 110.2 321.8 96 352 96h32V64c0-12.9 7.8-24.6 19.8-29.6zM164 282.7L204 336l-31.2 41.6C154.7 401.8 126.2 416 96 416H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H96c10.1 0 19.6-4.7 25.6-12.8L164 282.7zm274.6 188c-9.2 9.2-22.9 11.9-34.9 6.9s-19.8-16.6-19.8-29.6V416H352c-30.2 0-58.7-14.2-76.8-38.4L121.6 172.8c-6-8.1-15.5-12.8-25.6-12.8H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H96c30.2 0 58.7 14.2 76.8 38.4L326.4 339.2c6 8.1 15.5 12.8 25.6 12.8h32V320c0-12.9 7.8-24.6 19.8-29.6s25.7-2.2 34.9 6.9l64 64c6 6 9.4 14.1 9.4 22.6s-3.4 16.6-9.4 22.6l-64 64z"></path>
+      </symbol>
+      <symbol id="quote" viewBox="0 0 512 512">
+        <path d="M464 256h-80v-64c0-35.3 28.7-64 64-64h8c13.3 0 24-10.7 24-24V56c0-13.3-10.7-24-24-24h-8c-88.4 0-160 71.6-160 160v240c0 26.5 21.5 48 48 48h128c26.5 0 48-21.5 48-48V304c0-26.5-21.5-48-48-48zm-288 0H96v-64c0-35.3 28.7-64 64-64h8c13.3 0 24-10.7 24-24V56c0-13.3-10.7-24-24-24h-8C71.6 32 0 103.6 0 192v240c0 26.5 21.5 48 48 48h128c26.5 0 48-21.5 48-48V304c0-26.5-21.5-48-48-48z"></path>
+      </symbol>
+      <symbol id="nav-icon" viewBox="0 0 16 16">
+        <path d="M14 10.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0 0 1h7a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0 0 1h11a.5.5 0 0 0 .5-.5z"></path>
+      </symbol>
+      <symbol id="close" viewBox="0 0 16 16">
+        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"></path>
+      </symbol>
+      <symbol id="navbar-icon" viewBox="0 0 16 16">
+        <path d="M14 10.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0 0 1h7a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0 0 1h11a.5.5 0 0 0 .5-.5z"></path>
+      </symbol>
+    </svg>
+
+    <div id="preloader">
+      <div class="preloader-inner">
+        <div class="spinner"></div>
+        <div class="loading-text">
+          <span data-preloader-text="L" class="characters">L</span>
+          <span data-preloader-text="O" class="characters">O</span>
+          <span data-preloader-text="A" class="characters">A</span>
+          <span data-preloader-text="D" class="characters">D</span>
+          <span data-preloader-text="I" class="characters">I</span>
+          <span data-preloader-text="N" class="characters">N</span>
+          <span data-preloader-text="G" class="characters">G</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="search-box position-relative overflow-hidden w-100">
+      <div class="search-wrap">
+        <div class="close-button position-absolute">
+          <svg class="close" width="25" height="25">
+            <use xlink:href="#close"></use>
+          </svg>
+        </div>
+        <form id="search-form" class="text-center pt-3" action="" method="">
+          <input type="text" class="search-input fs-5 p-5 bg-transparent" placeholder="Search...">
+          <svg class="search-icon position-absolute" width="25" height="25">
+            <use xlink:href="#search"></use>
+          </svg>
+        </form>
+      </div>
+    </div>
+
+    <header id="header" class="site-header text-black">
+      <nav id="header-nav" class="navbar navbar-expand-lg px-3 mb-3">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="index.html">
+            <h2 style="font-family: 'Eagle Lake', cursive; font-size: 28px;">Marquise Maison</h2>
+          </a>
+          <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <svg class="navbar-icon" width="50" height="50">
+              <use xlink:href="#navbar-icon"></use>
+            </svg>
+          </button>
+          <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar" aria-labelledby="bdNavbarOffcanvasLabel">
+            <div class="offcanvas-header px-4 pb-0">
+              <a class="navbar-brand" href="index.html">
+                <h2 style="font-family: 'Eagle Lake', cursive; font-size: 28px;">Marquise Maison</h2>
+              </a>
+              <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close"
+                data-bs-target="#bdNavbar"></button>
+            </div>
+            <div class="offcanvas-body">
+              <ul id="navbar"
+                class="navbar-nav text-uppercase justify-content-end align-items-center flex-grow-1 pe-3">
+                <li class="nav-item">
+                  <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="about-us.html">About Us</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="dropdownPages" data-bs-toggle="dropdown"
+                    aria-expanded="false">Shop</a>
+                  <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownPages">
+                    <li>
+                      <a href="single-product.html" class="dropdown-item">Product Details</a>
+                    </li>
+                    <li>
+                      <a href="cart.html" class="dropdown-item">Shopping Cart</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="dropdownPages" data-bs-toggle="dropdown"
+                    aria-expanded="false">Blog</a>
+                  <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownPages">
+                    <li>
+                      <a href="blog-classic.html" class="dropdown-item">Blog Classic</a>
+                    </li>
+                    <li>
+                      <a href="blog-4-column.html" class="dropdown-item">Blog 4 Column</a>
+                    </li>
+                    <li>
+                      <a href="blog-with-sidebar.html" class="dropdown-item">Blog With Sidebar</a>
+                    </li>
+                    <li>
+                      <a href="single-post.html" class="dropdown-item">Single Post</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="dropdownPages" data-bs-toggle="dropdown"
+                    aria-expanded="false">Pages</a>
+                  <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownPages">
+                    <li>
+                      <a href="about-us.html" class="dropdown-item">About</a>
+                    </li>
+                    <li>
+                      <a href="cart.html" class="dropdown-item">Cart</a>
+                    </li>
+                    <li>
+                      <a href="checkout.html" class="dropdown-item">Checkout</a>
+                    </li>
+                    <li>
+                      <a href="contact.html" class="dropdown-item">Contact</a>
+                    </li>
+                    <li>
+                      <a href="error-page.html" class="dropdown-item">Error Page</a>
+                    </li>
+                    <li>
+                      <a href="faqs.html" class="dropdown-item">FAQs</a>
+                    </li>
+                    <li>
+                      <a href="my-account.html" class="dropdown-item">My Account</a>
+                    </li>
+                    <li>
+                      <a href="order-tracking.html" class="dropdown-item">Order Tracking</a>
+                    </li>
+                    <li>
+                      <a href="wishlist.html" class="dropdown-item">Wishlist</a>
+                    </li>
+                    <li>
+                      <a href="compare.html" class="dropdown-item">Compare</a>
+                    </li>
+                    <li>
+                      <a href="single-post.html" class="dropdown-item">Single Post</a>
+                    </li>
+                    <li>
+                      <a href="single-product.html" class="dropdown-item">Single Product</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="contact.html">Contact</a>
+                </li>
+              </ul>
+              <div class="user-items ps-5">
+                <ul class="d-flex justify-content-end list-unstyled">
+                  <li class="search-item pe-3">
+                    <a href="#" class="search-button">
+                      <svg class="search" width="18" height="18">
+                        <use xlink:href="#search"></use>
+                      </svg>
+                    </a>
+                  </li>
+                  <li class="pe-3">
+                    <a href="my-account.html">
+                      <svg class="user" width="18" height="18">
+                        <use xlink:href="#user"></use>
+                      </svg>
+                    </a>
+                  </li>
+                  <li class="pe-3">
+                    <a href="wishlist.html" class="position-relative">
+                      <svg class="heart" width="18" height="18">
+                        <use xlink:href="#heart"></use>
+                      </svg>
+                      <span class="wishlist-count position-absolute">0</span>
+                    </a>
+                  </li>
+                  <li class="pe-3">
+                    <a href="compare.html" class="position-relative">
+                      <svg class="compare" width="18" height="18">
+                        <use xlink:href="#compare"></use>
+                      </svg>
+                      <span class="compare-count position-absolute d-none">0</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="cart.html" class="position-relative">
+                      <svg class="cart" width="18" height="18">
+                        <use xlink:href="#cart"></use>
+                      </svg>
+                      <span class="cart-count position-absolute">0</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <section class="page-title-section bg-light py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1 class="display-4 text-dark">Product Comparison</h1>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb justify-content-center">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Compare</li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="compare-section py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="compare-table-container">
+              <!-- This will be populated by compare.js -->
+              <div class="empty-compare-message text-center py-5">
+                <p>Your comparison list is empty.</p>
+                <a href="index.html" class="btn btn-primary">Continue Shopping</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="company-services" class="py-5 border-top border-bottom" data-aos="fade-up" data-aos-duration="800">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-3 col-md-6 pb-3" data-aos="fade-right" data-aos-delay="200">
+            <div class="icon-box d-flex align-items-center">
+              <div class="icon-box-icon pt-3 pe-3 pb-3 ps-3">
+                <svg class="shipping-fast">
+                  <use xlink:href="#shipping-fast" />
+                </svg>
+              </div>
+              <div class="icon-box-content ps-3">
+                <h3 class="card-title text-capitalize text-dark mb-0">Quick delivery</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 pb-3" data-aos="fade-right" data-aos-delay="400">
+            <div class="icon-box d-flex align-items-center">
+              <div class="icon-box-icon pt-3 pe-3 pb-3 ps-3">
+                <svg class="shopping-cart">
+                  <use xlink:href="#shopping-cart" />
+                </svg>
+              </div>
+              <div class="icon-box-content ps-3">
+                <h3 class="card-title text-capitalize text-dark mb-0">Pick up in store</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 pb-3" data-aos="fade-right" data-aos-delay="600">
+            <div class="icon-box d-flex align-items-center">
+              <div class="icon-box-icon pt-3 pe-3 pb-3 ps-3">
+                <svg class="gift">
+                  <use xlink:href="#gift" />
+                </svg>
+              </div>
+              <div class="icon-box-content ps-3">
+                <h3 class="card-title text-capitalize text-dark mb-0">Special Packaging</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 pb-3" data-aos="fade-right" data-aos-delay="800">
+            <div class="icon-box d-flex align-items-center">
+              <div class="icon-box-icon pt-3 pe-3 pb-3 ps-3">
+                <svg class="return">
+                  <use xlink:href="#return" />
+                </svg>
+              </div>
+              <div class="icon-box-content ps-3">
+                <h3 class="card-title text-capitalize text-dark mb-0">Return & refund policy</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer id="footer" class="overflow-hidden padding-large" data-aos="fade-up" data-aos-duration="800">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="row d-flex flex-wrap justify-content-between">
+            <div class="col-lg-3 col-sm-6 pb-3 pe-4" data-aos="fade-right" data-aos-delay="200">
+              <div class="footer-menu">
+                <h2 style="font-family: 'Eagle Lake', cursive; font-size: 28px; margin-bottom: 15px;">Marquise Maison</h2>
+                <p>Mi facilisis facilisis orci vitae. Cum nisi morbi integer tincidunt ornare ac praesent in. Dolor tempus
+                  arcu sit quis nunc arcu facilisis quis eget nisi morbi integer.</p>
+              </div>
+              <div class="copyright">
+                <p>© 2025 CSRB. All rights reserved. Designed by Somesh.</p>
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 pb-3" data-aos="fade-up" data-aos-delay="400">
+              <div class="footer-menu text-capitalize">
+                <h5 class="widget-title pb-2">Quick Links</h5>
+                <ul class="menu-list list-unstyled text-capitalize">
+                  <li class="menu-item pb-2">
+                    <a href="index.html">Home</a>
+                  </li>
+                  <li class="menu-item pb-2">
+                    <a href="about-us.html">About</a>
+                  </li>
+                  <li class="menu-item pb-2">
+                    <a href="#company-services">Services</a>
+                  </li>
+                  <li class="menu-item pb-2">
+                    <a href="blog-classic.html">Blogs</a>
+                  </li>
+                  <li class="menu-item pb-2">
+                    <a href="contact.html">Contact</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-6 pb-3" data-aos="fade-up" data-aos-delay="600">
+              <div class="footer-menu text-capitalize">
+                <h5 class="widget-title pb-2">Social</h5>
+                <div class="social-links">
+                  <ul class="list-unstyled">
+                    <li class="pb-2">
+                      <a href="#">Facebook</a>
+                    </li>
+                    <li class="pb-2">
+                      <a href="#">Twitter</a>
+                    </li>
+                    <li class="pb-2">
+                      <a href="#">Pinterest</a>
+                    </li>
+                    <li class="pb-2">
+                      <a href="#">Instagram</a>
+                    </li>
+                    <li>
+                      <a href="#">Youtube</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-6" data-aos="fade-left" data-aos-delay="800">
+              <div class="footer-menu contact-item">
+                <h5 class="widget-title text-capitalize pb-2">Contact Us</h5>
+                <p>Customer Service: <a href="tel:+918329526787">+91 83295 26787</a></p>
+                <p>Technical Support: <a href="tel:+919403946091">+91 94039 46091</a></p>
+                <p>Email: <a href="mailto:thesoma69@gmail.com">thesoma69@gmail.com</a></p>
+                <p>Location: MH 26 Nanded, Maharastra 431804</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js" defer></script>
+    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="js/plugins.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js" defer></script>
+    <script type="text/javascript" src="js/animations.js"></script>
+    <script type="text/javascript" src="js/cart-sync.js"></script>
+    <script type="text/javascript" src="js/compare.js"></script>
+  </body>
+</html>
